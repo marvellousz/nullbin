@@ -1,0 +1,205 @@
+import { getPastesCollection, initializeDatabase } from './mongodb'
+import { generateId } from './utils'
+
+export interface Paste {
+  _id?: string // MongoDB ObjectId
+  id: string
+  title?: string
+  content: string // encrypted content
+  language: string
+  createdAt: number
+  expiresAt: Date | null // Changed to Date for MongoDB TTL
+  iv: string // initialization vector for decryption
+  salt?: string // salt for password-derived keys
+  passwordProtected: boolean
+  viewCount: number
+}
+
+export interface CreatePasteRequest {
+  title?: string
+  content: string // encrypted content
+  language: string
+  expiry: string
+  password?: string
+  iv: string
+  salt?: string
+}
+
+export interface CreatePasteResponse {
+  id: string
+  url: string
+}
+
+export interface GetPasteResult {
+  paste: Paste | null
+  expired: boolean
+  expiredAt?: Date
+}
+
+// Initialize database on module load
+initializeDatabase().catch(console.error)
+
+export async function createPaste(data: CreatePasteRequest): Promise<string> {
+  const collection = await getPastesCollection()
+  const id = generateId()
+  const now = Date.now()
+  
+  let expiresAt: Date | null = null
+  switch (data.expiry) {
+    case '1m':
+      expiresAt = new Date(now + 1 * 60 * 1000)
+      break
+    case '5m':
+      expiresAt = new Date(now + 5 * 60 * 1000)
+      break
+    case '10m':
+      expiresAt = new Date(now + 10 * 60 * 1000)
+      break
+    case '15m':
+      expiresAt = new Date(now + 15 * 60 * 1000)
+      break
+    case '30m':
+      expiresAt = new Date(now + 30 * 60 * 1000)
+      break
+    case '45m':
+      expiresAt = new Date(now + 45 * 60 * 1000)
+      break
+    case '1h':
+      expiresAt = new Date(now + 60 * 60 * 1000)
+      break
+    case '3h':
+      expiresAt = new Date(now + 3 * 60 * 60 * 1000)
+      break
+    case '6h':
+      expiresAt = new Date(now + 6 * 60 * 60 * 1000)
+      break
+    case '12h':
+      expiresAt = new Date(now + 12 * 60 * 60 * 1000)
+      break
+    case '1d':
+      expiresAt = new Date(now + 24 * 60 * 60 * 1000)
+      break
+    case '3d':
+      expiresAt = new Date(now + 3 * 24 * 60 * 60 * 1000)
+      break
+    case '7d':
+      expiresAt = new Date(now + 7 * 24 * 60 * 60 * 1000)
+      break
+    case '30d':
+      expiresAt = new Date(now + 30 * 24 * 60 * 60 * 1000)
+      break
+    case 'never':
+    default:
+      expiresAt = null
+      break  }
+  
+  const paste: Omit<Paste, '_id'> = {
+    id,
+    title: data.title,
+    content: data.content,
+    language: data.language,
+    createdAt: now,
+    expiresAt,
+    iv: data.iv,
+    salt: data.salt,
+    passwordProtected: !!data.password,
+    viewCount: 0,
+  }
+  
+  await collection.insertOne(paste)
+  return id
+}
+
+export async function getPaste(id: string): Promise<GetPasteResult> {
+  const collection = await getPastesCollection()
+  
+  const paste = await collection.findOne<Paste>({ id })
+  if (!paste) {
+    console.log(`Paste lookup: ID "${id}" - Not found in database`)
+    return { paste: null, expired: false }
+  }
+  
+  // Check if expired (additional check, though MongoDB TTL should handle this)
+  if (paste.expiresAt) {
+    // Handle both Date objects and timestamps (MongoDB might store as either)
+    const expiryDate = paste.expiresAt instanceof Date ? paste.expiresAt : new Date(paste.expiresAt)
+    const now = new Date()
+    
+    if (now > expiryDate) {
+      const timeExpired = now.getTime() - expiryDate.getTime()
+      const expiredAgo = timeExpired < 60000 ? `${Math.floor(timeExpired / 1000)}s ago` :
+                        timeExpired < 3600000 ? `${Math.floor(timeExpired / 60000)}m ago` :
+                        timeExpired < 86400000 ? `${Math.floor(timeExpired / 3600000)}h ago` :
+                        `${Math.floor(timeExpired / 86400000)}d ago`
+      
+      console.log(`Paste expired: ID "${id}" - Expired ${expiredAgo} (${expiryDate.toISOString()}). Cleaning up...`)
+      
+      // Delete the expired paste
+      await collection.deleteOne({ id })
+      console.log(`Paste cleanup: ID "${id}" - Successfully removed from database`)
+      return { paste: null, expired: true, expiredAt: expiryDate }
+    }
+    
+    // Log successful access with expiration info
+    const timeToExpiry = expiryDate.getTime() - now.getTime()
+    const expiresIn = timeToExpiry < 60000 ? `${Math.floor(timeToExpiry / 1000)}s` :
+                      timeToExpiry < 3600000 ? `${Math.floor(timeToExpiry / 60000)}m` :
+                      timeToExpiry < 86400000 ? `${Math.floor(timeToExpiry / 3600000)}h` :
+                      `${Math.floor(timeToExpiry / 86400000)}d`
+    
+    console.log(`Paste access: ID "${id}" - Valid, expires in ${expiresIn} (${expiryDate.toISOString()})`)
+  } else {
+    console.log(`Paste access: ID "${id}" - Valid, never expires`)
+  }
+  
+  // Increment view count
+  await collection.updateOne(
+    { id },
+    { $inc: { viewCount: 1 } }
+  )
+  
+  // Return updated paste with incremented view count
+  return { paste: { ...paste, viewCount: paste.viewCount + 1 }, expired: false }
+}
+
+export async function deletePaste(id: string): Promise<boolean> {
+  const collection = await getPastesCollection()
+  const result = await collection.deleteOne({ id })
+  return result.deletedCount > 0
+}
+
+export async function getPasteCount(): Promise<number> {
+  const collection = await getPastesCollection()
+  return await collection.countDocuments()
+}
+
+// Helper function to clean up expired pastes manually (backup to TTL)
+export async function cleanupExpiredPastes(): Promise<number> {
+  const collection = await getPastesCollection()
+  
+  console.log('Starting manual cleanup of expired pastes...')
+  
+  // Find expired pastes first to log them
+  const expiredPastes = await collection.find({
+    expiresAt: { $ne: null, $lt: new Date() }
+  }).toArray()
+  
+  if (expiredPastes.length > 0) {
+    console.log(`Found ${expiredPastes.length} expired pastes to clean up:`)
+    expiredPastes.forEach(paste => {
+      const expiredAgo = Date.now() - new Date(paste.expiresAt).getTime()
+      const timeAgo = expiredAgo < 60000 ? `${Math.floor(expiredAgo / 1000)}s ago` :
+                      expiredAgo < 3600000 ? `${Math.floor(expiredAgo / 60000)}m ago` :
+                      expiredAgo < 86400000 ? `${Math.floor(expiredAgo / 3600000)}h ago` :
+                      `${Math.floor(expiredAgo / 86400000)}d ago`
+      console.log(`  - Paste "${paste.id}" (expired ${timeAgo})`)
+    })
+  }
+  
+  const result = await collection.deleteMany({
+    expiresAt: { $ne: null, $lt: new Date() }
+  })
+  
+  console.log(`Cleanup completed: ${result.deletedCount} expired pastes removed`)
+  return result.deletedCount
+}
