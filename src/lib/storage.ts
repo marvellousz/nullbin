@@ -108,9 +108,9 @@ export async function createPaste(data: CreatePasteRequest): Promise<string> {
     passwordProtected: !!data.password,
     viewCount: 0,
   }
-    try {
+  try {
     console.log(`Attempting to insert paste with ID "${id}"...`);
-    const result = await collection.insertOne(paste as any);
+    const result = await collection.insertOne(paste as Omit<Paste, '_id'>);
     
     if (!result.acknowledged) {
       console.error('MongoDB insert not acknowledged');

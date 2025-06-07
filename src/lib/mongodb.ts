@@ -21,8 +21,10 @@ if (!global._mongoClientPromise) {
       const redactedUri = uriParts.length > 1 
         ? `mongodb://*****@${uriParts[1]}` 
         : 'mongodb://localhost:*****';
-      console.log(`Initializing MongoDB with URI pattern: ${redactedUri}`);
-    } catch (e) {
+      console.log(`Initializing MongoDB with URI pattern: ${redactedUri}`);    } catch (
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      _
+    ) {
       console.log('Could not parse MongoDB URI for logging');
     }
   }
