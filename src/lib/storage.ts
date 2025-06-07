@@ -40,11 +40,15 @@ export interface GetPasteResult {
 initializeDatabase().catch(console.error)
 
 export async function createPaste(data: CreatePasteRequest): Promise<string> {
-  const collection = await getPastesCollection()
-  const id = generateId()
-  const now = Date.now()
-  
-  let expiresAt: Date | null = null
+  try {
+    console.log('Starting paste creation process...');
+    
+    const collection = await getPastesCollection()
+    console.log('MongoDB connection successful, collection accessed');
+    const id = generateId()
+    const now = Date.now()
+    
+    let expiresAt: Date | null = null
   switch (data.expiry) {
     case '1m':
       expiresAt = new Date(now + 1 * 60 * 1000)
@@ -92,8 +96,7 @@ export async function createPaste(data: CreatePasteRequest): Promise<string> {
     default:
       expiresAt = null
       break  }
-  
-  const paste: Omit<Paste, '_id'> = {
+    const paste: Omit<Paste, '_id'> = {
     id,
     title: data.title,
     content: data.content,
@@ -105,9 +108,31 @@ export async function createPaste(data: CreatePasteRequest): Promise<string> {
     passwordProtected: !!data.password,
     viewCount: 0,
   }
-  
-  await collection.insertOne(paste)
-  return id
+    try {
+    console.log(`Attempting to insert paste with ID "${id}"...`);
+    const result = await collection.insertOne(paste as any);
+    
+    if (!result.acknowledged) {
+      console.error('MongoDB insert not acknowledged');
+      throw new Error('Database operation failed: Insert not acknowledged');
+    }
+    
+    console.log(`Paste created: ID "${id}" successfully created (MongoDB insertedId: ${result.insertedId})`);
+    return id
+  } catch (error) {
+    console.error(`MongoDB insert error:`, error);
+    if (error instanceof Error) {
+      console.error(`Error name: ${error.name}, Message: ${error.message}, Stack: ${error.stack}`);
+    }
+    throw new Error(`Failed to create paste: ${error instanceof Error ? error.message : String(error)}`);
+  }
+  } catch (error) {
+    console.error(`Paste creation error:`, error);
+    if (error instanceof Error) {
+      console.error(`Error name: ${error.name}, Message: ${error.message}, Stack: ${error.stack}`);
+    }
+    throw new Error(`Failed to create paste: ${error instanceof Error ? error.message : String(error)}`);
+  }
 }
 
 export async function getPaste(id: string): Promise<GetPasteResult> {
