@@ -11,28 +11,77 @@ declare global {
 }
 
 if (!global._mongoClientPromise) {
-  client = new MongoClient(MONGODB_URI, {
-    // Connection timeout options
-    serverSelectionTimeoutMS: 10000,
-    connectTimeoutMS: 30000,
-    // Connection pool options
-    maxPoolSize: 10,
-    minPoolSize: 1,
-    maxIdleTimeMS: 30000,
-    // Retry options
-    retryWrites: true,
-    retryReads: true
-  })
-  global._mongoClientPromise = client.connect()
+  // Check if MongoDB URI is set and log part of it for debugging (hiding credentials)
+  if (!MONGODB_URI) {
+    console.error('MONGODB_URI is not set in environment variables');
+    throw new Error('MONGODB_URI is not configured');
+  } else {
+    try {
+      const uriParts = MONGODB_URI.split('@');
+      const redactedUri = uriParts.length > 1 
+        ? `mongodb://*****@${uriParts[1]}` 
+        : 'mongodb://localhost:*****';
+      console.log(`Initializing MongoDB with URI pattern: ${redactedUri}`);
+    } catch (e) {
+      console.log('Could not parse MongoDB URI for logging');
+    }
+  }
+  
+  try {
+    console.log('Creating new MongoDB client...');
+    client = new MongoClient(MONGODB_URI, {
+      // Connection timeout options - increased for potential network issues
+      serverSelectionTimeoutMS: 15000,
+      connectTimeoutMS: 40000,
+      socketTimeoutMS: 60000, // Added socket timeout
+      // Connection pool options
+      maxPoolSize: 10,
+      minPoolSize: 1,
+      maxIdleTimeMS: 30000,
+      // Retry options - increased for reliability
+      retryWrites: true,
+      retryReads: true,
+      maxConnecting: 3 // Limit concurrent connection attempts
+    });
+    
+    console.log('Attempting to connect to MongoDB...');
+    global._mongoClientPromise = client.connect()
+      .then(client => {
+        console.log('MongoDB connection established successfully');
+        return client;
+      })
+      .catch(err => {
+        console.error('Failed to connect to MongoDB:', err);
+        console.error('MongoDB connection error details:', {
+          name: err.name,
+          message: err.message,
+          code: err.code,
+          stack: err.stack
+        });
+        throw err;
+      });
+  } catch (error) {
+    console.error('Error initializing MongoDB client:', error);
+    if (error instanceof Error) {
+      console.error('Stack trace:', error.stack);
+    }
+    throw error;
+  }
 }
 
 const clientPromise = global._mongoClientPromise
 
 export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db }> {
-  const client = await clientPromise
-  const db = client.db(MONGODB_DB)
-  
-  return { client, db }
+  try {
+    console.log('Connecting to MongoDB...');
+    const client = await clientPromise
+    const db = client.db(MONGODB_DB)
+    console.log('MongoDB connection successful');
+    return { client, db }
+  } catch (error) {
+    console.error('Failed to connect to MongoDB in connectToDatabase:', error);
+    throw error;
+  }
 }
 
 export async function getPastesCollection(): Promise<Collection> {
