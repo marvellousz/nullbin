@@ -14,9 +14,9 @@ export async function POST(request: NextRequest) {
     }    
     // Create the paste (now async)
     const pasteId = await createPaste(body)
-    
-    // Generate shareable URL (we don't include the key here since it should be in the hash fragment)
-    const url = `${request.nextUrl.origin}/paste/${pasteId}`
+      // Generate shareable URL (we don't include the key here since it should be in the hash fragment)
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || request.nextUrl.origin
+    const url = `${baseUrl}/paste/${pasteId}`
     
     return NextResponse.json({
       id: pasteId,
