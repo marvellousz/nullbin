@@ -1,4 +1,4 @@
-# NullBin
+# nullbin
 
 A privacy-first, client-side encrypted, optionally self-hostable Pastebin alternative with a clean, modern UX.
 
