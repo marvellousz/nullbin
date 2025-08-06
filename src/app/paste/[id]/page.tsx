@@ -5,6 +5,7 @@ import PasteViewer from '@/components/paste-viewer'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowLeft } from 'lucide-react'
 import Footer from '@/components/footer'
 
@@ -16,11 +17,14 @@ export default function PastePage() {
       <header className="border-b backdrop-blur-sm bg-background/80 sticky top-0 z-50">
         <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <Link href="/" className="flex items-center space-x-2 sm:space-x-3 hover:opacity-80 transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center shadow-lg transition-all duration-200 hover:shadow-xl">
-                <span className="text-primary-foreground font-bold text-base sm:text-lg">N</span>
-              </div>
-              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold tracking-tight">NullBin</h1>
+            <Link href="/" className="flex items-center hover:opacity-80 transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation">
+              <Image
+                src="/nullbin-logo.png"
+                alt="NullBin Logo"
+                width={64}
+                height={64}
+                className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl shadow-lg transition-all duration-200 hover:shadow-xl object-contain"
+              />
             </Link>
           </div>
           <div className="flex items-center space-x-2 sm:space-x-4">

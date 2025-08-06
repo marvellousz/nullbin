@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Plus, Search, Share2, Shield, Clock, Code, Key, Lock, Eye } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 import { toast } from "sonner"
 import PasteForm from "@/components/paste-form"
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -65,11 +66,14 @@ function HomeContent() {
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex flex-col">
         <header className="border-b backdrop-blur-sm bg-background/80">
           <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-primary-foreground font-bold text-lg">N</span>
-              </div>
-              <h1 className="text-2xl font-bold tracking-tight">NullBin</h1>
+            <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+              <Image
+                src="/nullbin-logo.png"
+                alt="NullBin Logo"
+                width={64}
+                height={64}
+                className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl shadow-lg object-contain"
+              />
             </Link>
             <div className="flex items-center space-x-4">
               <Button 
@@ -97,11 +101,14 @@ function HomeContent() {
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex flex-col">
         <header className="border-b backdrop-blur-sm bg-background/80">
           <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-primary-foreground font-bold text-lg">N</span>
-              </div>
-              <h1 className="text-2xl font-bold tracking-tight">NullBin</h1>
+            <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+              <Image
+                src="/nullbin-logo.png"
+                alt="NullBin Logo"
+                width={64}
+                height={64}
+                className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl shadow-lg object-contain"
+              />
             </Link>
             <div className="flex items-center space-x-4">
               <Button 
@@ -158,11 +165,14 @@ function HomeContent() {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex flex-col">
       <header className="border-b backdrop-blur-sm bg-background/80">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-primary-foreground font-bold text-base sm:text-lg">N</span>
-            </div>
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight">NullBin</h1>
+          <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+            <Image
+              src="/nullbin-logo.png"
+              alt="NullBin Logo"
+              width={64}
+              height={64}
+              className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl shadow-lg object-contain"
+            />
           </Link>
           <div className="flex items-center space-x-2 sm:space-x-4">
             <span className="text-xs sm:text-sm text-muted-foreground hidden sm:inline">

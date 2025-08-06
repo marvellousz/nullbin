@@ -19,6 +19,53 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "NullBin - Privacy-first encrypted pastebin",
   description: "Secure, client-side encrypted pastebin. No accounts, no tracking, auto-expiry.",
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      {
+        url: "/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        url: "/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+    ],
+    apple: [
+      {
+        url: "/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/nullbin-logo.png",
+        color: "#000000",
+      },
+    ],
+  },
+  openGraph: {
+    title: "NullBin - Privacy-first encrypted pastebin",
+    description: "Secure, client-side encrypted pastebin. No accounts, no tracking, auto-expiry.",
+    images: [
+      {
+        url: "/nullbin-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "NullBin Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NullBin - Privacy-first encrypted pastebin",
+    description: "Secure, client-side encrypted pastebin. No accounts, no tracking, auto-expiry.",
+    images: ["/nullbin-logo.png"],
+  },
 };
 
 export default function RootLayout({
