@@ -1,112 +1,114 @@
 # nullbin
 
-A privacy-first, client-side encrypted, optionally self-hostable Pastebin alternative with a clean, modern UX.
-
-**No accounts. No tracking. Just safe sharing.**
+A privacy-first, client-side encrypted pastebin alternative. No accounts, no tracking, just secure sharing.
 
 ## Features
 
-- **Client-Side Encryption**: All paste content is encrypted with AES-256 before sending to server
-- **Shareable Links**: Hash fragment contains decryption key (never sent to server)
-- **Optional Password**: Add extra protection with user-defined passwords
-- **Expiry Support**: Auto-delete pastes after specified time (1h, 1d, 7d, 30d, or never)
-- **Dark Mode UI**: Clean, focused interface with dark/light theme toggle
-- **Syntax Highlighting**: Support for 40+ programming languages using Shiki
-- **Responsive Design**: Works perfectly on desktop and mobile
-- **Self-Hostable**: Deploy on your own infrastructure
+- Client-side encryption (AES-256)
+- Auto-expiring pastes
+- Syntax highlighting
+- Optional password protection
+- No registration required
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 with App Router
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Database**: MongoDB with TTL (Time To Live) indexes
-- **Encryption**: Web Crypto API (AES-GCM)
-- **Syntax Highlighting**: Shiki
-- **Deployment**: Vercel-ready (or any Node.js hosting)
+- Next.js 15 with TypeScript
+- MongoDB with TTL indexes
+- Tailwind CSS
+- Web Crypto API
 
 ## Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ 
-- MongoDB (local installation or MongoDB Atlas)
+- Node.js 18+
+- MongoDB (local or Atlas)
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd nullbin
-   ```
+1. Clone and install dependencies:
+```bash
+git clone https://github.com/yourusername/nullbin.git
+cd nullbin
+npm install
+```
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+2. Set up environment variables:
+```bash
+cp .env.example .env.local
+```
 
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env.local
-   ```
-   
-   Edit `.env.local` and configure your MongoDB connection:
-   ```env
-   MONGODB_URI=mongodb://localhost:27017
-   MONGODB_DB=nullbin
-   ```
+Edit `.env.local`:
+```env
+MONGODB_URI=mongodb://localhost:27017
+MONGODB_DB=nullbin
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+```
 
-4. **Start MongoDB**
-   
-   **Option A: Local MongoDB**
-   ```bash
-   # Install MongoDB Community Edition from https://www.mongodb.com/try/download/community
-   # Then start the service
-   mongod
-   ```
-   
-   **Option B: MongoDB Atlas (Cloud)**
-   - Create a free account at [MongoDB Atlas](https://cloud.mongodb.com/)
-   - Create a new cluster
-   - Get your connection string and update `MONGODB_URI` in `.env.local`
+3. Start MongoDB:
+```bash
+# Local MongoDB
+mongod
 
-5. **Run the development server**
-   ```bash
-   npm run dev
-   ```
+# Or use MongoDB Atlas (cloud)
+```
 
-6. **Open your browser**
-   
-   Navigate to [http://localhost:3000](http://localhost:3000)
+4. Run the development server:
+```bash
+npm run dev
+```
 
-## Configuration
+5. Open [http://localhost:3000](http://localhost:3000)
 
-### Environment Variables
+## Environment Variables
 
-- `MONGODB_URI`: MongoDB connection string
+- `MONGODB_URI`: MongoDB connection string (required)
 - `MONGODB_DB`: Database name (default: 'nullbin')
+- `NEXT_PUBLIC_BASE_URL`: Base URL for shareable links (optional)
 
-### Database Setup
+## Usage
 
-The application automatically:
-- Creates necessary indexes for performance
-- Sets up TTL (Time To Live) indexes for automatic cleanup of expired pastes
-- Initializes the database schema on first run
+### Creating a Paste
 
-## Security Features
+1. Click "Start Creating"
+2. Enter your content
+3. Select language and expiry time
+4. Optionally set a password
+5. Click "Create Paste"
+6. Share the generated link
 
-### Client-Side Encryption
-- All paste content is encrypted using AES-256-GCM before transmission
-- Encryption key is generated client-side and never sent to the server
-- Hash fragment in URLs contains the decryption key (not sent in HTTP requests)
+### Viewing a Paste
 
-### Data Privacy
-- Server only stores encrypted content
-- No user accounts or tracking
-- Automatic expiration of pastes
-- Optional password protection for additional security
+1. Click "Find Paste"
+2. Enter paste ID or full URL
+3. Content decrypts automatically in your browser
 
-## API Reference
+## Security
+
+- All content encrypted client-side before transmission
+- Decryption keys stored in URL hash (never sent to server)
+- Server only stores encrypted data
+- Automatic paste expiration
+
+## Deployment
+
+### Vercel
+
+1. Deploy to Vercel:
+```bash
+npm i -g vercel
+vercel
+```
+
+2. Set environment variables in Vercel dashboard:
+- `MONGODB_URI`: Your MongoDB Atlas connection string
+- `MONGODB_DB`: Your database name
+
+### Self-Hosting
+
+Deploy to any Node.js hosting platform with MongoDB support.
+
+## API
 
 ### Create Paste
 ```http
@@ -114,8 +116,7 @@ POST /api/paste
 Content-Type: application/json
 
 {
-  "title": "Optional title",
-  "content": "encrypted_content_here",
+  "content": "encrypted_content",
   "language": "javascript",
   "expiry": "1d",
   "iv": "initialization_vector",
@@ -128,51 +129,6 @@ Content-Type: application/json
 GET /api/paste/[id]
 ```
 
-## Deployment
-
-### Vercel (Recommended)
-
-1. **Deploy to Vercel**
-   ```bash
-   npm i -g vercel
-   vercel
-   ```
-
-2. **Set environment variables in Vercel dashboard**
-   - `MONGODB_URI`: Your MongoDB Atlas connection string
-   - `MONGODB_DB`: Your database name
-
-### Self-Hosting
-
-1. **Build the application**
-   ```bash
-   npm run build
-   ```
-
-2. **Start the production server**
-   ```bash
-   npm start
-   ```
-
-3. **Set up reverse proxy** (optional)
-   Configure nginx or Apache to proxy requests to your Next.js application.
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
-
-## Support
-
-If you encounter any issues or have questions:
-
-1. Check the [Issues](https://github.com/your-repo/nullbin/issues) page
-2. Create a new issue with detailed information
-3. Join our community discussions
-
----
-
-**Made with care for privacy and security**
+MIT
