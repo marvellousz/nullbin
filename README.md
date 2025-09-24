@@ -141,6 +141,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
+- **Email**: pranavmurali024@gmail.com
 - **GitHub**: [https://github.com/marvellousz/nullbin](https://github.com/marvellousz/nullbin)
 
 ---
