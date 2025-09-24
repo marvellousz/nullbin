@@ -17,6 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'),
   title: "NullBin - Privacy-first encrypted pastebin",
   description: "Secure, client-side encrypted pastebin. No accounts, no tracking, auto-expiry.",
   manifest: "/site.webmanifest",
