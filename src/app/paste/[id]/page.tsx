@@ -13,18 +13,12 @@ export default function PastePage() {
   const params = useParams()
   const id = params.id as string
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex flex-col">
-      <header className="border-b backdrop-blur-sm bg-background/80 sticky top-0 z-50">
+    <div className="min-h-screen bg-background flex flex-col">
+      <header className="border-b bg-background sticky top-0 z-50">
         <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <Link href="/" className="flex items-center hover:opacity-80 transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation">
-              <Image
-                src="/nullbin-logo.png"
-                alt="NullBin Logo"
-                width={64}
-                height={64}
-                className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl shadow-lg transition-all duration-200 hover:shadow-xl object-contain"
-              />
+            <Link href="/" className="flex items-center">
+              <span className="text-xl font-bold">NullBin</span>
             </Link>
           </div>
           <div className="flex items-center space-x-2 sm:space-x-4">
