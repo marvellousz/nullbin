@@ -5,7 +5,6 @@ import PasteViewer from '@/components/paste-viewer'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import Image from 'next/image'
 import { ArrowLeft } from 'lucide-react'
 import Footer from '@/components/footer'
 
