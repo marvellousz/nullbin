@@ -13,16 +13,18 @@ export default function PastePage() {
   const id = params.id as string
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="border-b bg-background sticky top-0 z-50">
+      <header className="border-b bg-background/80 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300">
         <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <Link href="/" className="flex items-center">
-              <span className="text-xl font-bold">NullBin</span>
+            <Link href="/" className="flex items-center group">
+              <span className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                NullBin
+              </span>
             </Link>
           </div>
           <div className="flex items-center space-x-2 sm:space-x-4">
             <Link href="/">
-              <Button variant="outline" size="sm" className="hover:bg-primary/10 transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation h-8 sm:h-9">
+              <Button variant="outline" size="sm" className="hover:bg-primary/10 transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation h-8 sm:h-9 font-medium shadow-sm hover:shadow-md">
                 <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">Back</span>
                 <span className="sm:hidden">←</span>
@@ -30,7 +32,8 @@ export default function PastePage() {
             </Link>
             <ThemeToggle />
           </div>
-        </div>      </header>
+        </div>
+      </header>
       <main className="flex-1 container mx-auto px-0 py-4 sm:py-6 lg:py-8">
         <div className="max-w-6xl mx-auto">
           <PasteViewer pasteId={id} />

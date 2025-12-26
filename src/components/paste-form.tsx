@@ -122,12 +122,15 @@ export function PasteForm() {  const [content, setContent] = useState("")
   }
 
   return (
-    <Card className="w-full max-w-4xl mx-auto rounded-2xl border-0 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm shadow-2xl shadow-primary/5">
+    <Card className="w-full max-w-4xl mx-auto rounded-2xl border-0 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm shadow-2xl shadow-primary/5 hover:shadow-primary/10 transition-all duration-500 animate-fade-in">
       <CardHeader className="text-center pb-4 sm:pb-6 px-4 sm:px-6">
-        <div className="mx-auto mb-3 sm:mb-4 h-12 w-12 sm:h-16 sm:w-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center ring-4 ring-primary/5 transition-transform duration-300 hover:scale-105">
-          <Share2 className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
+        <div className="relative mx-auto mb-3 sm:mb-4">
+          <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-xl animate-pulse"></div>
+          <div className="relative h-12 w-12 sm:h-16 sm:w-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center ring-4 ring-primary/5 transition-transform duration-300 hover:scale-110">
+            <Share2 className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
+          </div>
         </div>
-        <CardTitle className="text-xl sm:text-2xl font-semibold tracking-tight">
+        <CardTitle className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
           Create New Paste
         </CardTitle>
         <p className="text-muted-foreground mt-2 text-sm sm:text-base">
@@ -237,20 +240,21 @@ export function PasteForm() {  const [content, setContent] = useState("")
           {/* Submit Button */}
           <Button 
             type="submit" 
-            className="w-full h-11 sm:h-12 text-base sm:text-lg font-medium bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 shadow-lg shadow-primary/25 transition-all duration-200 active:scale-[0.98] touch-manipulation group" 
+            className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-gradient-to-r from-primary via-primary/95 to-primary/90 hover:from-primary/90 hover:via-primary/85 hover:to-primary/80 shadow-xl shadow-primary/30 hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 active:scale-[0.98] touch-manipulation group relative overflow-hidden" 
             disabled={isLoading || !content.trim()}
           >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
             {isLoading ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
-                <span className="hidden sm:inline">Creating Paste...</span>
-                <span className="sm:hidden">Creating...</span>
+                <Loader2 className="mr-2 h-5 w-5 sm:h-6 sm:w-6 animate-spin relative z-10" />
+                <span className="hidden sm:inline relative z-10">Creating Paste...</span>
+                <span className="sm:hidden relative z-10">Creating...</span>
               </>
             ) : (
               <>
-                <Share2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-200" />
-                <span className="hidden sm:inline">Create Encrypted Paste</span>
-                <span className="sm:hidden">Create Paste</span>
+                <Share2 className="mr-2 h-5 w-5 sm:h-6 sm:w-6 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 relative z-10" />
+                <span className="hidden sm:inline relative z-10">Create Encrypted Paste</span>
+                <span className="sm:hidden relative z-10">Create Paste</span>
               </>
             )}
           </Button>

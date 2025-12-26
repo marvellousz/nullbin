@@ -438,23 +438,25 @@ export function PasteViewer({ pasteId }: PasteViewerProps) {
   return (
     <div className="w-full max-w-6xl mx-auto space-y-3 sm:space-y-4 lg:space-y-6 px-3 sm:px-4 lg:px-6">
       {/* Paste Info */}
-      <Card className="rounded-xl sm:rounded-2xl border-0 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm shadow-2xl shadow-primary/5 transition-all duration-300 hover:shadow-primary/10">
+      <Card className="rounded-xl sm:rounded-2xl border-0 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm shadow-2xl shadow-primary/5 transition-all duration-300 hover:shadow-primary/10 animate-fade-in">
         <CardHeader className="pb-3 sm:pb-6 px-4 sm:px-6">
           <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:items-center justify-between">
-            <CardTitle className="flex items-center gap-2 text-base sm:text-lg lg:text-xl">
-              {paste.passwordProtected ? (
-                <Lock className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 text-orange-500 animate-pulse" />
-              ) : (
-                <Code className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 text-primary" />
-              )}
-              <span className="truncate text-sm sm:text-base font-medium">{paste.title || `Paste ${paste.id}`}</span>
+            <CardTitle className="flex items-center gap-3 text-base sm:text-lg lg:text-xl">
+              <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 border border-primary/20">
+                {paste.passwordProtected ? (
+                  <Lock className="h-5 w-5 text-orange-500 animate-pulse" />
+                ) : (
+                  <Code className="h-5 w-5 text-primary" />
+                )}
+              </div>
+              <span className="truncate text-sm sm:text-base lg:text-lg font-semibold">{paste.title || `Paste ${paste.id}`}</span>
             </CardTitle>
             <div className="flex items-center gap-2 self-start sm:self-center">
-              <Badge variant="secondary" className="flex items-center gap-1 text-xs transition-all duration-200 hover:bg-secondary/80 hover:scale-105">
+              <Badge variant="secondary" className="flex items-center gap-1.5 text-xs font-medium transition-all duration-200 hover:bg-secondary/80 hover:scale-105 shadow-sm">
                 <Eye className="h-3 w-3" />
                 <span className="hidden sm:inline">Views: </span>{paste.viewCount}
               </Badge>
-              <Badge variant="outline" className="text-xs transition-all duration-200 hover:bg-primary/10 hover:scale-105">{paste.language}</Badge>
+              <Badge variant="outline" className="text-xs font-medium transition-all duration-200 hover:bg-primary/10 hover:scale-105 shadow-sm">{paste.language}</Badge>
             </div>
           </div>          <div className="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:items-center sm:gap-4 text-xs sm:text-sm text-muted-foreground">
             <span className="flex items-center gap-1 group">
@@ -484,17 +486,19 @@ export function PasteViewer({ pasteId }: PasteViewerProps) {
       </Card>
 
       {/* Share Link Section */}
-      <Card className="border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950 rounded-xl sm:rounded-2xl shadow-lg shadow-green-500/10 transition-all duration-300 hover:shadow-green-500/20">
+      <Card className="border-green-200/50 dark:border-green-800/50 bg-gradient-to-br from-green-50 via-green-50/50 to-green-50/30 dark:from-green-950 dark:via-green-950/50 dark:to-green-950/30 rounded-xl sm:rounded-2xl shadow-xl shadow-green-500/10 hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-300 backdrop-blur-sm">
         <CardHeader className="px-4 sm:px-6">
-          <CardTitle className="flex items-center gap-2 text-green-800 dark:text-green-200 text-base sm:text-lg">
-            <Share2 className="h-4 w-4 sm:h-5 sm:w-5" />
+          <CardTitle className="flex items-center gap-2 text-green-800 dark:text-green-200 text-base sm:text-lg font-semibold">
+            <div className="h-8 w-8 rounded-lg bg-green-500/20 flex items-center justify-center">
+              <Share2 className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 dark:text-green-400" />
+            </div>
             <span className="hidden sm:inline">Share This Paste</span>
             <span className="sm:hidden">Share</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="px-4 sm:px-6">
           <div className="space-y-3">
-            <p className="text-xs sm:text-sm text-green-700 dark:text-green-300">
+            <p className="text-xs sm:text-sm text-green-700 dark:text-green-300 font-medium">
               <span className="hidden sm:inline">Share this encrypted paste with others using the link below:</span>
               <span className="sm:hidden">Share this encrypted paste:</span>
             </p>
@@ -502,30 +506,35 @@ export function PasteViewer({ pasteId }: PasteViewerProps) {
               <Input 
                 value={window.location.href}
                 readOnly 
-                className="font-mono text-xs sm:text-sm bg-white dark:bg-gray-900 border-green-200 dark:border-green-800 flex-1 transition-all duration-200 focus:ring-2 focus:ring-green-500/20"
+                className="font-mono text-xs sm:text-sm bg-white dark:bg-gray-900 border-green-200 dark:border-green-800 flex-1 transition-all duration-200 focus:ring-2 focus:ring-green-500/20 h-10 sm:h-11"
               />
               <Button 
                 onClick={copyShareableLink}
-                className="bg-green-600 hover:bg-green-700 text-white transition-all duration-200 hover:scale-105 hover:shadow-lg whitespace-nowrap active:scale-95 touch-manipulation h-9 sm:h-10"
+                className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white transition-all duration-300 hover:scale-105 hover:shadow-xl shadow-lg shadow-green-500/25 whitespace-nowrap active:scale-95 touch-manipulation h-10 sm:h-11 font-semibold"
               >
                 <Copy className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">Copy Link</span>
                 <span className="sm:hidden">Copy</span>
               </Button>
             </div>
-            <p className="text-xs text-green-600 dark:text-green-400">
-              💡 The decryption key is included in the URL fragment and never sent to our servers
-            </p>
+            <div className="flex items-start gap-2 p-3 rounded-lg bg-green-100/50 dark:bg-green-900/20 border border-green-200/50 dark:border-green-800/50">
+              <span className="text-base">💡</span>
+              <p className="text-xs text-green-700 dark:text-green-300 flex-1">
+                The decryption key is included in the URL fragment and never sent to our servers
+              </p>
+            </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Password Protection */}
       {paste.passwordProtected && !isDecrypted && (
-        <Card className="rounded-xl sm:rounded-2xl border-0 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm shadow-2xl shadow-orange-500/10 transition-all duration-300 hover:shadow-orange-500/20">
+        <Card className="rounded-xl sm:rounded-2xl border-0 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm shadow-2xl shadow-orange-500/10 hover:shadow-orange-500/20 transition-all duration-300 animate-slide-in">
           <CardHeader className="px-4 sm:px-6">
-            <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
-              <Lock className="h-4 w-4 sm:h-5 sm:w-5 text-orange-500" />
+            <CardTitle className="flex items-center gap-2 text-base sm:text-lg font-semibold">
+              <div className="h-8 w-8 rounded-lg bg-orange-500/20 flex items-center justify-center">
+                <Lock className="h-4 w-4 sm:h-5 sm:w-5 text-orange-500 animate-pulse" />
+              </div>
               Password Protected
             </CardTitle>
           </CardHeader>
@@ -540,23 +549,23 @@ export function PasteViewer({ pasteId }: PasteViewerProps) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="h-10 sm:h-11 transition-all duration-200 focus:ring-2 focus:ring-orange-500/20"
+                  className="h-11 sm:h-12 transition-all duration-200 focus:ring-2 focus:ring-orange-500/20 text-base"
                 />
               </div>
               <Button 
                 type="submit" 
                 disabled={isDecrypting || !password} 
-                className="w-full sm:w-auto transition-all duration-200 hover:scale-105 disabled:hover:scale-100 active:scale-95 touch-manipulation h-10 sm:h-11"
+                className="w-full sm:w-auto bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105 disabled:hover:scale-100 active:scale-95 touch-manipulation h-11 sm:h-12 font-semibold"
               >
                 {isDecrypting ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                     <span className="hidden sm:inline">Decrypting...</span>
                     <span className="sm:hidden">Decrypting...</span>
                   </>
                 ) : (
                   <>
-                    <Unlock className="mr-2 h-4 w-4" />
+                    <Unlock className="mr-2 h-5 w-5" />
                     <span className="hidden sm:inline">Decrypt Content</span>
                     <span className="sm:hidden">Decrypt</span>
                   </>
@@ -581,27 +590,27 @@ export function PasteViewer({ pasteId }: PasteViewerProps) {
                   variant="outline"
                   size="sm"
                   onClick={copyShareableLink}
-                  className="hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 dark:hover:bg-blue-950 dark:hover:border-blue-700 dark:hover:text-blue-300 transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation h-8 sm:h-9"
+                  className="hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 dark:hover:bg-blue-950 dark:hover:border-blue-700 dark:hover:text-blue-300 transition-all duration-300 hover:scale-105 active:scale-95 touch-manipulation h-9 sm:h-10 font-medium shadow-sm hover:shadow-md"
                 >
-                  <Share2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <Share2 className="h-4 w-4 mr-1 sm:mr-2" />
                   <span className="hidden sm:inline">Copy </span>Link
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={copyToClipboard}
-                  className="hover:bg-emerald-50 hover:border-emerald-300 hover:text-emerald-700 dark:hover:bg-emerald-950 dark:hover:border-emerald-700 dark:hover:text-emerald-300 transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation h-8 sm:h-9"
+                  className="hover:bg-emerald-50 hover:border-emerald-300 hover:text-emerald-700 dark:hover:bg-emerald-950 dark:hover:border-emerald-700 dark:hover:text-emerald-300 transition-all duration-300 hover:scale-105 active:scale-95 touch-manipulation h-9 sm:h-10 font-medium shadow-sm hover:shadow-md"
                 >
-                  <Copy className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <Copy className="h-4 w-4 mr-1 sm:mr-2" />
                   <span className="hidden sm:inline">Copy </span>Content
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={downloadPaste}
-                  className="hover:bg-purple-50 hover:border-purple-300 hover:text-purple-700 dark:hover:bg-purple-950 dark:hover:border-purple-700 dark:hover:text-purple-300 transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation h-8 sm:h-9"
+                  className="hover:bg-purple-50 hover:border-purple-300 hover:text-purple-700 dark:hover:bg-purple-950 dark:hover:border-purple-700 dark:hover:text-purple-300 transition-all duration-300 hover:scale-105 active:scale-95 touch-manipulation h-9 sm:h-10 font-medium shadow-sm hover:shadow-md"
                 >
-                  <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <Download className="h-4 w-4 mr-1 sm:mr-2" />
                   <span className="hidden sm:inline">Download</span>
                   <span className="sm:hidden">DL</span>
                 </Button>
