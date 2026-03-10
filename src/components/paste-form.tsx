@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label"
 import { Loader2, Share2, Eye, EyeOff } from "lucide-react"
 import { encryptData, generateShareableLink } from "@/lib/crypto"
 import { languageOptions, getLanguageFromFilename } from "@/lib/syntax"
-import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
 const expiryOptions = [
@@ -39,8 +38,6 @@ export function PasteForm() {  const [content, setContent] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   
-  const router = useRouter()
-
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (!file) return
@@ -112,8 +109,8 @@ export function PasteForm() {  const [content, setContent] = useState("")
         })
       }
 
-      // Navigate to the paste
-      router.push(shareableLink)
+      // Use full-page navigation to preserve hash fragment with decryption data.
+      window.location.assign(shareableLink)
     } catch (error) {
       console.error("Error creating paste:", error)
       toast.error("Failed to create paste. Please try again.")    } finally {
