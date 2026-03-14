@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Plus, Search, Shield, Clock, Eye, Copy, Lock, Github, ArrowRight } from "lucide-react"
+import { Plus, Search, Shield, Clock, Copy, Lock, Github, ArrowRight } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { toast } from "sonner"
@@ -12,7 +12,7 @@ import PasteForm from "@/components/paste-form"
 import { ThemeToggle } from '@/components/theme-toggle'
 import Footer from '@/components/footer'
 
-function Header({ setMode, mode }: { setMode: (mode: "select" | "create" | "view") => void, mode: "select" | "create" | "view" }) {
+function Header({ setMode }: { setMode: (mode: "select" | "create" | "view") => void }) {
   return (
     <header className="sticky top-0 z-50 border-b border-border/40 bg-background/50 backdrop-blur-2xl">
       <div className="container mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
@@ -82,7 +82,7 @@ function HomeContent() {
   if (mode === "create") {
     return (
       <div className="min-h-screen flex flex-col grid-bg dark:bg-black bg-white">
-        <Header setMode={setMode} mode={mode} />
+        <Header setMode={setMode} />
         <main className="flex-1 container mx-auto py-12 px-4 isolate">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8 flex items-center justify-between">
@@ -106,7 +106,7 @@ function HomeContent() {
   if (mode === "view") {
     return (
       <div className="min-h-screen flex flex-col grid-bg dark:bg-black bg-white">
-        <Header setMode={setMode} mode={mode} />
+        <Header setMode={setMode} />
         <main className="flex-1 container mx-auto py-20 px-4 isolate flex items-center justify-center">
           <div className="w-full max-w-lg mb-20">
             <div className="text-center mb-10">
@@ -152,7 +152,7 @@ function HomeContent() {
 
   return (
     <div className="min-h-screen flex flex-col grid-bg dark:bg-black bg-white">
-      <Header setMode={setMode} mode={mode} />
+      <Header setMode={setMode} />
 
       <main className="flex-1 isolate">
         {/* Subtle radial gradients for background glow */}

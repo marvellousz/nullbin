@@ -15,8 +15,7 @@ import {
   Unlock,
   Loader2,
   AlertCircle,
-  Share2,
-  ArrowLeft
+  Share2
 } from "lucide-react"
 import { decryptData, extractEncryptionFromHash } from "@/lib/crypto"
 import { highlightCode } from "@/lib/syntax"
@@ -161,7 +160,7 @@ export function PasteViewer({ pasteId }: PasteViewerProps) {
         setDecryptedContent(decrypted)
         setIsDecrypted(true)
         toast.success("Content decrypted successfully")
-      } catch (decryptError: unknown) {
+      } catch {
         if (pasteData.passwordProtected && userPassword) {
           toast.error("Incorrect password. Please try again.")
         } else if (pasteData.passwordProtected) {
@@ -170,7 +169,7 @@ export function PasteViewer({ pasteId }: PasteViewerProps) {
           setError("Failed to decrypt content. The decryption link may be invalid or corrupted.")
         }
       }
-    } catch (error) {
+    } catch {
       setError("Failed to prepare decryption parameters.")
     } finally {
       setIsDecrypting(false)
