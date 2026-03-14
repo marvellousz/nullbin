@@ -16,10 +16,11 @@ export default function PastePage() {
       <header className="border-b bg-background/80 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300">
         <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <Link href="/" className="flex items-center group">
-              <span className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-                NullBin
-              </span>
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="w-8 h-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold tracking-tighter">
+                N
+              </div>
+              <span className="text-xl font-bold tracking-tight">NullBin</span>
             </Link>
           </div>
           <div className="flex items-center space-x-2 sm:space-x-4">
