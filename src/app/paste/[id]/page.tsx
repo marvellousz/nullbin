@@ -28,7 +28,6 @@ export default function PastePage() {
               <Button variant="outline" size="sm" className="hover:bg-primary/10 transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation h-8 sm:h-9 font-medium shadow-sm hover:shadow-md">
                 <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">Back</span>
-                <span className="sm:hidden">←</span>
               </Button>
             </Link>
             <ThemeToggle />

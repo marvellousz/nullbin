@@ -162,7 +162,7 @@ function HomeContent() {
         </div>
 
         {/* Hero Section */}
-        <section className="container mx-auto px-4 pt-32 pb-24 sm:pt-40 sm:pb-32 flex flex-col items-center text-center">
+        <section className="container mx-auto px-4 pt-32 pb-40 sm:pt-40 sm:pb-56 flex flex-col items-center text-center">
           
           <h1 className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter mb-8 max-w-5xl leading-[1.1]">
             Share code with <br className="hidden sm:block" />
@@ -198,7 +198,7 @@ function HomeContent() {
         </section>
 
         {/* Features / Bento Grid */}
-        <section className="container mx-auto px-4 py-24 border-t border-border/40 bg-background/40 backdrop-blur-sm">
+        <section className="container mx-auto px-4 py-32 sm:py-48 border-t border-border/40 bg-background/40 backdrop-blur-sm">
           <div className="max-w-6xl mx-auto">
             <div className="mb-16">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Engineered for privacy.</h2>
@@ -253,7 +253,7 @@ function HomeContent() {
           </div>
         </section>
       </main>
-
+      <Footer />
     </div>
   )
 }
