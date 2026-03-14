@@ -25,7 +25,7 @@ function Header({ setMode }: { setMode: (mode: "select" | "create" | "view") => 
           </Link>
         </div>
         <div className="flex items-center gap-4">
-          <a href="https://github.com" target="_blank" rel="noreferrer" className="hidden sm:flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+          <a href="https://github.com/marvlock/nullbin" target="_blank" rel="noreferrer" className="hidden sm:flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
             <Github className="w-4 h-4" />
             <span>GitHub</span>
           </a>
@@ -210,7 +210,7 @@ function HomeContent() {
             <div className="grid md:grid-cols-3 gap-6">
               {/* Feature 1 */}
               <div className="glass-panel p-8 rounded-3xl flex flex-col group relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500">
+                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-500">
                   <Shield className="w-24 h-24" />
                 </div>
                 <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 ring-1 ring-primary/20">
@@ -224,7 +224,7 @@ function HomeContent() {
 
               {/* Feature 2 */}
               <div className="glass-panel p-8 rounded-3xl flex flex-col group relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 group-hover:-rotate-12 transition-transform duration-500">
+                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-500">
                   <Copy className="w-24 h-24" />
                 </div>
                 <div className="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center mb-6 ring-1 ring-blue-500/20">
@@ -238,7 +238,7 @@ function HomeContent() {
 
               {/* Feature 3 */}
               <div className="glass-panel p-8 rounded-3xl flex flex-col group relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500">
+                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-500">
                   <Clock className="w-24 h-24" />
                 </div>
                 <div className="w-12 h-12 rounded-xl bg-green-500/10 text-green-500 flex items-center justify-center mb-6 ring-1 ring-green-500/20">
